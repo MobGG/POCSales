@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { ProductModel } from '../../models/product'
+import { ProductModel } from '../../models/product';
+import { PromotionProvider } from '../../providers/promotion/promotion'
 
 @IonicPage()
 @Component({
@@ -10,20 +11,36 @@ import { ProductModel } from '../../models/product'
 
 export class OrderProductPage {
   product: any;
+  appParam: any;
+  promotion: any;
   disableButton: boolean;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private viewCtrl: ViewController,
+    private promo: PromotionProvider,
   ) {
     this.product = navParams.get('product');
+    this.appParam = navParams.get('appParam');
     this.disableButton = true;
-    // console.log('chose product', this.product);
+    // console.log('chosen product', this.product);
+    // console.log('this.appParam', this.appParam);
+    this.promo.getPromotionMasterALL(this.appParam, this.product.productCode)
+      .subscribe(res => {
+        if (res) {
+          this.promotion = res;
+        }
+      }, err => {
+        console.warn('error', err);
+      }, () => {
+        console.log('Fin');
+      })
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad OrderProductPage');
+    // console.log('ionViewDidLoad OrderProductPage');
+    // var divToChange = document.getElementById('my_id');
   }
 
   order(product: ProductModel | null) {

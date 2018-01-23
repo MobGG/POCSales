@@ -13,7 +13,7 @@ import { ProductProvider } from '../../providers/product/product';
 @IonicPage()
 @Component({
   selector: 'page-choose-product',
-  templateUrl: 'choose-product-new.html',
+  templateUrl: 'choose-product.html',
 })
 
 export class ChooseProductPage {
@@ -60,6 +60,7 @@ export class ChooseProductPage {
           this.products = stockVan;
         }, (err) => {
           console.warn('error', err);
+          loader.dismiss();
         }, () => {
           loader.dismiss();
         });
@@ -88,7 +89,7 @@ export class ChooseProductPage {
       }
     });
 
-    let orderModal = this.modalCtrl.create('OrderProductPage', { product: order });
+    let orderModal = this.modalCtrl.create('OrderProductPage', { product: order, appParam: this.appParam });
     orderModal.present();
     orderModal.onDidDismiss((order: ProductModel) => {
       if (order != null) {
@@ -105,25 +106,23 @@ export class ChooseProductPage {
     });
   }
 
-  editOrder(product) {
-    let order = JSON.parse(JSON.stringify(product));
-    let orderModal = this.modalCtrl.create('OrderProductPage', { product: order });
-    orderModal.present();
-    orderModal.onDidDismiss((order: ProductModel) => {
-      if (order != null) {
-        product.orderB = order.orderB;
-        product.orderP = order.orderP;
-        // order.sumPrice = (order.orderB * order.unitPrice) + (order.orderP * order.piecePrice);
-        // product.sumPrice = order.sumPrice;
-      }
-    });
-  }
+  // editOrder(product) {
+  //   let order = JSON.parse(JSON.stringify(product));
+  //   let orderModal = this.modalCtrl.create('OrderProductPage', { product: order, appParam: this.appParam });
+  //   orderModal.present();
+  //   orderModal.onDidDismiss((order: ProductModel) => {
+  //     if (order != null) {
+  //       product.orderB = order.orderB;
+  //       product.orderP = order.orderP;
+  //       // order.sumPrice = (order.orderB * order.unitPrice) + (order.orderP * order.piecePrice);
+  //       // product.sumPrice = order.sumPrice;
+  //     }
+  //   });
+  // }
 
   removeFormCart(event, productIndex) {
     console.log(this.cart);
     event.stopPropagation();
-    // this.cart[productIndex].productInCart = true;
-    // this.products[productIndex].productInCart = true;
     this.cart.splice(productIndex, 1);
   }
 

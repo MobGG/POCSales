@@ -1,0 +1,86 @@
+<ion-header>
+
+  <ion-navbar color="spc">
+    <ion-title>customPromotion</ion-title>
+  </ion-navbar>
+  <ion-toolbar no-border-top color="spc">
+    <ion-row align-items-center>
+      <ion-searchbar ion-col col-10 placeholder="ค้นหาสินค้า" [(ngModel)]="searchText"></ion-searchbar>
+      <button ion-button ion-col col-2 (click)="search()">search</button>
+    </ion-row>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="view">
+      <ion-segment-button value="product">
+        รายการสินค้า
+      </ion-segment-button>
+      <ion-segment-button value="cart">
+        สั่งสินค้า
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content padding class="bg-color">
+
+  <div [ngSwitch]="view">
+    <ion-list *ngSwitchCase="'product'">
+      <button ion-item *ngFor="let product of productsList" (click)="order(product)">
+        <ion-row>
+          <div ion-col col-12 col-sm-7 col-md-8 text-wrap> {{ product.productCode }} {{ product.palmProductNamet }} </div>
+          <div ion-col col-12 col-sm-5 col-md-4 text-wrap text-right> เหลือ {{ product.qtyB }} หีบ / {{ product.qtyP }} ชิ้น </div>
+        </ion-row  >
+        
+      </button>
+
+    </ion-list>
+
+    <div>
+      <ion-row>
+
+      </ion-row>
+
+      <!-- <button ion-item *ngFor="let product of productsList" (click)="order(product)">
+
+        <ion-row>
+          <div ion-col col-3 text-wrap>
+            {{ product.productCode }} {{ product.palmProductNamet }}
+          </div>
+
+          <div ion-col col-1>
+            {{ product.qtyB }}/{{ product.qtyP }}
+          </div>
+          <div ion-col col-1>
+            {{ product.unitPrice}}
+          </div>
+          <div ion-col col-1>
+            {{ product.orderB}}/{{ product.orderP}}
+          </div>
+          <div ion-col col-1>
+            {{ product.discount}}/{{ product.orderP}}
+          </div>
+          <div ion-col col-1>
+            {{ product.specialPrice}}
+          </div>
+          <div ion-col col-1>
+            premiuntTo
+          </div>
+
+        </ion-row>
+        
+      </button> -->
+
+    </div>
+
+    <ion-list *ngSwitchCase="'cart'">
+      <button ion-item *ngFor="let product of cart" (click)="order(product)">
+        <ion-row>
+          <div ion-col col-12 col-sm-7 col-md-8 text-wrap> {{product.productCode}} {{product.palmProductNamet}} {{ product.promotionTo }} </div>
+          <div ion-col col-12 col-sm-5 col-md-4 text-wrap text-right> {{ product.orderB }} หีบ / {{ product.orderP }} ชิ้น </div>
+        </ion-row>
+      </button>
+    </ion-list>
+  </div>
+
+</ion-content>

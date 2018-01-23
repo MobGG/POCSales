@@ -1,0 +1,103 @@
+{
+    "salesman": {
+        "dependon": "SL387",
+        "divisioncode": "B",
+        "employeeno": "11581",
+        "joblevel": null,
+        "mobileno": "089-0351974",
+        "pasasectioncode": null,
+        "sectioncode": "204",
+        "sectionnamethai": "แผนกขาย 2 ภาคอีสาน            ",
+        "userclass": "S9",
+        "usercode": "C461",
+        "usernamethai": "พรเทพ มาสเสงี่ยม"
+    },
+    "customer": {
+        "address": "33/7",
+        "amphurCode": "3415",
+        "amphurEng": "Warin Chamrap",
+        "amphurThai": "อำเภอวารินชำราบ",
+        "custSectionGrad": "",
+        "customerArea": "central",
+        "customerCode": "40494148",
+        "customerNameEng": "",
+        "customerNameThai": "#พี่กร",
+        "customergroup": "98",
+        "dateTrip1": "3",
+        "dateTrip2": "0",
+        "dateTrip3": "0",
+        "dateTrip4": "0",
+        "districtCode": "341524",
+        "districtEng": "Huai Kha Yung",
+        "districtThai": "ตำบลห้วยขะยุง",
+        "gpse": " ",
+        "gpsn": " ",
+        "provinceCode": "34",
+        "provinceEng": "Ubon Ratchathani",
+        "provinceThai": "จังหวัดอุบลราชธานี",
+        "zipcode": null
+    },
+    "cart": [
+        {
+            "balanceForInvoice": 16,
+            "balanceOnHand": 16,
+            "barcode": null,
+            "discount": 100,
+            "orderB": 1,
+            "orderP": 0,
+            "packingSize": 24,
+            "palmProductNamet": "กัสเซ็นคิวบ์ช็อกโกใหม่",
+            "piecePrice": 21.5,
+            "productCode": "522102",
+            "assortedProductGroup": "2",
+            "productNameEnglish": "GNCCN",
+            "productNameThai": "กัสเซ็นคิวบ์ช็อกโกแลตใหม่",
+            "qtyB": 16,
+            "qtyP": 0,
+            "sumPrice": 516,
+            "totalPrice": 416,
+            "unitPrice": 516,
+            "warehouseCode": "C461",
+            "premiumProduct": {
+                "premiumProductCode": "522102",
+                "premiumProductName": "กัสเซ็นคิวบ์ช็อกโกใหม่.",
+                "premiumProductUnit": "B",
+                "premiumProductPackingSize": 24,
+                "premiumProductQty": 1
+            }
+        },
+        {
+            "balanceForInvoice": 16,
+            "balanceOnHand": 16,
+            "discount": 100,
+            "orderB": 1,
+            "orderP": 0,
+            "packingSize": 144,
+            "palmProductNamet": "แปรงเซ็นท์SAVE10บ.",
+            "piecePrice": 6.58,
+            "productCode": "321208",
+            "assortedProductGroup": "1",
+            "productNameEnglish": "AUR",
+            "productNameThai": "แปรงสีฟันเซ็นท์ผู้ใหญ่รุ่นSAVE10บ.",
+            "qtyB": 16,
+            "qtyP": 0,
+            "sumPrice": 948,
+            "totalPrice": 848,
+            "unitPrice": 948,
+            "warehouseCode": "C461",
+            "premiumProduct": {
+                "premiumProductCode": "321208",
+                "premiumProductName": "แปรงเซ็นท์SAVE10บ.",
+                "premiumProductUnit": "B",
+                "premiumProductPackingSize": 144,
+                "premiumProductQty": 1
+            }
+        }
+    ],
+    "money": {
+        "total": 1264,
+        "vat": "7",
+        "vatAmount": 88.48,
+        "netTotal": 1352.48
+    }
+}

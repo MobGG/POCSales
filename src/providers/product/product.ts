@@ -48,6 +48,9 @@ export class ProductProvider {
               'piecePrice': +(product.unitprice / product.packingsize),
               'barcode': product.barcode,
               // init value
+              'discountPercent': 0,
+							'discountAmount': 0,
+							'specialPrice': 0,
               'productInCart': false,
               'orderB': 0,
               'orderP': 0,
@@ -134,7 +137,6 @@ export class ProductProvider {
             // console.log('orderDtlpromotion', res.json().results.orderDtlpromotion);
             return res.json().results;
           }
-
         }
       });
   }

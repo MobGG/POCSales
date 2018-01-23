@@ -1,14 +1,17 @@
 <ion-header>
-
   <ion-navbar>
-    <ion-title>menu</ion-title>
+    <ion-title>เมนู</ion-title>
   </ion-navbar>
-
 </ion-header>
-
-
 <ion-content padding>
-  <button ion-button full (click)="goToStock()">manage stock</button>
-  <button ion-button full (click)="goToTripsale()">tripsale</button>
-  <button ion-button full (click)="logout()">logout</button>
+  <button ion-button full (click)="goToGetProduct()">เบิกสินค้า</button>
+  <button ion-button full (click)="goToReturnProduct()">คืนสินค้า</button>
+  <button ion-button full (click)="goToStockHistory()">ประวัติการเบิก/คืน</button>
+  <button ion-button full (click)="goToTripsale()">เปิดงานขาย</button>
+  <button ion-button full (click)="goToCustomPromotion()">ขายแบบตั้งโปรโมชั่นเอง</button>
+  <button ion-button full (click)="goToTarget()">เป้า</button>
+  <button ion-button full (click)="goToCollectPay()">เก็บเงิน</button>
+  <button ion-button full (click)="goToPayment()">pay</button>
+  <button ion-button full (click)="goToPaymentModal()">pay modal</button>
+  <button ion-button full (click)="logout()">ออกจากระบบ</button>
 </ion-content>

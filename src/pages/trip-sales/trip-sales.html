@@ -13,11 +13,11 @@
     <ion-title text-center>ทริปเซล</ion-title>
 
     <!-- <ion-buttons right>
-      <button ion-button> 
+      <button ion-button (click)="initTripSalesPage()"> 
         <ion-icon no-padding name="add"></ion-icon>
         เพิ่มร้านค้า
       </button>
-    </ion-buttons> -->
+    </ion-buttons>  -->
 
   </ion-navbar>
 
@@ -34,13 +34,16 @@
         <ion-row>            
           <!-- <h1 ion-col col-12 col-sm-12 col-md-12 col-lg-4 col-xl-6 text-wrap> -->
           <h1 ion-col col-12 text-wrap>
-            {{ marker.title }} <ion-icon name="pin" color="spc"></ion-icon>
+            {{ marker.title }} 
+            <ion-icon name="pin" color="secondary" *ngIf="marker.haveGps === true"></ion-icon>
+            <ion-icon name="pin" color="danger" *ngIf="marker.haveGps === false"></ion-icon>
+            <ion-icon name="checkmark-circle" color="primary" *ngIf="marker.tripStatus"></ion-icon>
           </h1>                    
           <div ion-col col-12 text-wrap> 
             {{ marker.snippet }} 
           </div>
         </ion-row>
-       <!-- <button ion-fab item-right (click)="goToMarker($event, marker)">
+        <!-- <button ion-fab item-right (click)="goToMarker($event, marker)">
         <ion-icon name="pin"></ion-icon>
       </button>
       <button ion-fab item-right color="secondary" (click)="startNavigator($event, marker)">
@@ -50,22 +53,18 @@
         <ion-icon name='cart'></ion-icon>
       </button> -->
 
-      <!-- fab list  -->
-      <ion-fab top right item-right>
-        <button ion-fab>more</button>
-        <ion-fab-list side="left">
-          <button ion-fab color="secondary" (click)="goToChooseProduct($event, marker)"><ion-icon name="cart"></ion-icon></button>
-          <!-- ขายของ -->
-          <button ion-fab color="secondary" (click)="startNavigator($event, marker)"><ion-icon name="compass"></ion-icon></button>
-          <!-- นำทาง -->
-          <button ion-fab color="secondary" (click)="goToMarker($event, marker)"><ion-icon name="pin"></ion-icon></button>
-          <!-- ดูตำแหน่งบนแผนที่ -->
-          <button ion-fab color="secondary" (click)="goToPromotionListPage($event, marker)"><ion-icon name="ios-star"></ion-icon></button>
-          <!-- โปรโมชัน -->
-          <button ion-fab color="secondary" (click)="goToCustomerInfo($event, marker)"><ion-icon name="ios-home"></ion-icon></button>
-          <!-- โปรโมชัน -->
-        </ion-fab-list>
-      </ion-fab>
+        <!-- fab list  -->
+        <ion-fab top right item-right>
+          <button ion-fab>more</button>
+          <ion-fab-list side="left">
+            <button ion-fab color="secondary" (click)="startNavigator($event, marker)"><ion-icon name="compass"></ion-icon></button>
+            <!-- นำทาง -->
+            <button ion-fab color="secondary" (click)="goToMarker($event, marker)"><ion-icon name="pin"></ion-icon></button>
+            <!-- ดูตำแหน่งบนแผนที่ -->
+            <button ion-fab color="secondary" (click)="goToCustomerInfo($event, marker)"><ion-icon name="ios-home"></ion-icon></button>
+            <!-- เปิดงานขาย -->
+          </ion-fab-list>
+        </ion-fab> 
 
       </button>
     </ion-list>

@@ -1,0 +1,85 @@
+<ion-header>
+
+  <ion-navbar color="spc">
+    <ion-title text-center>ตั้งโปรโมชั่น</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="order()">
+        <ion-icon name="close" style="font-size:24px;"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <ion-row>
+    <ion-item padding-horizontal no-lines>
+      <strong> {{product.productCode}} {{product.palmProductNamet}} </strong>
+    </ion-item>
+  </ion-row>
+
+  <ion-row>
+    <ion-item ion-col col-6 padding-horizontal no-lines>
+      เหลือ {{ product.qtyB }} หีบ / {{product.qtyP}} ชิ้น
+    </ion-item>
+    <ion-item ion-col col-6 padding-horizontal no-lines>
+      บรรจุ {{ product.packingSize }} ชิ้น
+    </ion-item>
+  </ion-row>
+
+  <ion-row>
+    <ion-item ion-col col-6 padding-horizontal no-lines>
+      ราคาต่อหีบ {{ product.unitPrice | number: '1.0-2' }} บาท
+    </ion-item>
+    <ion-item ion-col col-6 padding-horizontal>
+      <ion-label fixed color="dark">ราคาพิเศษ</ion-label>
+      <ion-input text-right type="number" [(ngModel)]="product.specialPrice" name="specialPrice"> </ion-input>
+    </ion-item>
+  </ion-row>
+
+  <ion-row>
+    <ion-col col-6 no-padding>
+      <ion-item padding-horizontal>
+        <ion-label fixed color="dark">จำนวนหีบ</ion-label>
+        <ion-input text-right type="number" min="0" [(ngModel)]="product.orderB" name="orderB" (input)="validatePackage(product)"
+          (ionBlur)="validateOrder(product)">
+        </ion-input>
+      </ion-item>
+      <div text-wrap text-center *ngIf="product.outOfStockB" class="error-color">สินค้ามีไม่พอ</div>
+    </ion-col>
+    <ion-col col-6 no-padding>
+      <ion-item padding-horizontal>
+        <ion-label fixed color="dark">จำนวนชิ้น</ion-label>
+        <ion-input text-right type="number" min="0" [(ngModel)]="product.orderP" name="orderP" (input)="validatePiece(product)" (ionBlur)="validateOrder(product)">
+        </ion-input>
+      </ion-item>
+      <div text-wrap text-right *ngIf="product.outOfStockP" class="error-color">สินค้ามีไม่พอ</div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-item ion-col col-6 padding-horizontal>
+      <ion-label fixed color="dark">ส่วนลด %</ion-label>
+      <ion-input text-right type="number" min="0" [(ngModel)]="product.discountPercent" name="discountPercent"> </ion-input>
+    </ion-item>
+    <ion-item ion-col col-6 padding-horizontal>
+      <ion-label fixed color="dark">ส่วนลด</ion-label>
+      <ion-input text-right type="number" min="0" [(ngModel)]="product.discountAmount" name="discountAmount"> </ion-input>
+    </ion-item>
+  </ion-row>
+
+  <ion-row>
+    <ion-item padding-horizontal>
+      <ion-label fixed color="dark">แถมให้</ion-label>
+      <ion-input text-right type="text" [(ngModel)]="product.promotionTo" name="promotionTo"> </ion-input>
+    </ion-item>
+  </ion-row>
+
+</ion-content>
+
+<ion-footer no-border no-padding>
+  <ion-toolbar>
+    <button ion-button full block [disabled]="disableButton" (click)="order(product)">ตกลง</button>
+  </ion-toolbar>
+</ion-footer>

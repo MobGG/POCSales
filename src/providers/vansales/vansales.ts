@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -9,9 +10,10 @@ import { ProductModel } from '../../models/product';
 @Injectable()
 export class VansalesProvider {
 	private url: string = 'http://uateservice.sahapat.com/';
+	private b2bwsUrl: string = '';
 
 	constructor(
-		private http: Http,
+		private http: HttpClient,
 		private helperProvider: HelperProvider
 	) {
 		this.url = 'http://uateservice.sahapat.com/'; // dev
@@ -25,17 +27,16 @@ export class VansalesProvider {
 			"salesmanCode": criteria.salesmanCode,
 			"customerCode": criteria.customerCode,
 			// "tripDay": criteria.tripDay // wait choose day feature
-			"tripDay": day
-			// "tripDay": '01'
+			// "tripDay": day
+			"tripDay": '01'
 		};
-		let headers = new Headers();
+		let headers = new HttpHeaders();
 		headers.append('Content-Type', 'application/json');
 		return new Promise((resolve, reject) => {
 			this.http.post(this.url + 'spcmaster/getSalesmanMaster', param, { headers: headers })
 				.subscribe(res => {
-					if (res.json().success) {
-						// console.log('trip sales', res.json().results.tripCustomer);
-						resolve(res.json().results);
+					if (res['success']) {
+						resolve(res['results']);
 					} else {
 						resolve('criteria ไม่ถูกต้อง');
 					}
@@ -53,13 +54,13 @@ export class VansalesProvider {
 			"fromDate": "01/" + month + "/" + year,
 			"toDate": ""
 		};
-		let headers = new Headers();
+		let headers = new HttpHeaders();
 		headers.append('Content-Type', 'application/json');
 		return this.http.post(this.url + 'spcmaster/getTargetSalesmanOrderHist', request, { headers: headers })
 			.map(res => {
-				if (res.json().success) {
-					console.log('TargetAndHistory', res.json().results);
-					return res.json().results;
+				if (res['success']) {
+					console.log('TargetAndHistory', res['results']);
+					return res['results'];
 				}
 			});
 	}
@@ -71,16 +72,13 @@ export class VansalesProvider {
 			"tripseq": criteria.tripseq,
 			"customercode": criteria.customercode
 		};
-		let headers = new Headers();
+		let headers = new HttpHeaders();
 		headers.append('Content-Type', 'application/json');
 		return this.http.post(this.url + 'vansales/checktripstatus', param, { headers: headers })
 			.map((res: any) => {
 				if (res._body === "no") {
-					// console.warn('no data');
 					return 'no';
 				} else {
-					// console.log('Trip Status', res.json());
-					// return res.json();
 					return 'yes';
 				}
 			});
@@ -98,16 +96,15 @@ export class VansalesProvider {
 			"status": 3,
 			//  "status": criteria.any.status,
 		};
-		let headers = new Headers();
+		let headers = new HttpHeaders();
 		headers.append('Content-Type', 'application/json');
 		return this.http.post(this.url + 'vansales/insertcustomertripstatus', param, { headers: headers })
 			.map(res => {
 				if (res) {
-					// console.log('Promotion List', res.json());
-					return res.json();
+					return res;
 				} else {
 					console.warn('no data');
-					return res.json();
+					return res;
 				}
 			});
 	}
@@ -116,16 +113,19 @@ export class VansalesProvider {
 	// product
 	getStockVanMaster(criteria: any, option: string): Observable<any> {
 		let param = {
-			"salesmanCode": criteria.salesmanCode,
-			"productCode": criteria.productCode
+			"salesmanCode": criteria.salesmanCode, // stockCode, storeCode
+			// "salesmanCode": 'CY05',
+			"productCode": criteria.productCode // productCode, nameTh, nameEn, namePalm
 		};
-		let headers = new Headers();
+
+		let headers = new HttpHeaders();
 		headers.append('Content-Type', 'application/json');
 		return this.http.post(this.url + 'spcmaster/getStockVanMaster', param, { headers: headers })
 			.map(res => {
-				if (res.json().success) {
-					// console.log('results.stockVan ', res.json().results.stockVan);
-					let stockVan = res.json().results.stockVan;
+				if (res['success']) {
+
+					// console.log('results.stockVan ', res['results'].stockVan);
+					let stockVan = res['results'].stockVan;
 					let arrayProduct: any[] = [];
 					let mProducts: ProductModel;
 					for (let product of stockVan) {
@@ -145,6 +145,9 @@ export class VansalesProvider {
 							'piecePrice': +(product.unitprice / product.packingsize),
 							'barcode': product.barcode,
 							// init value
+							'discountPercent': 0,
+							'discountAmount': 0,
+							'specialPrice': 0,
 							'productInCart': false,
 							'orderB': 0,
 							'orderP': 0,
@@ -183,6 +186,7 @@ export class VansalesProvider {
 				}
 			})
 			.distinctUntilChanged();
+
 	}
 
 	checkPromotionC4(appParam: any): Observable<any> {
@@ -223,16 +227,14 @@ export class VansalesProvider {
 			"orderDate": this.helperProvider.getDateMonthYear(),
 			"saleorderDtl": orderDetail
 		};
-		let headers = new Headers();
+		let headers = new HttpHeaders();
 		headers.append('Content-Type', 'application/json');
 		return this.http.post(this.url + 'spcmaster/checkPromotionC4', param, { headers: headers })
 			.map(res => {
-				if (res.json().success) {
-					if (res.json().results.orderDtlpromotion) {
-						// console.log('orderDtlpromotion', res.json().results.orderDtlpromotion);
-						return res.json().results;
+				if (res['success']) {
+					if (res['results'].orderDtlpromotion) {
+						return res['results'];
 					}
-
 				}
 			});
 	}
@@ -242,17 +244,69 @@ export class VansalesProvider {
 			"productcode": productCode,
 			"productsize": productSize
 		};
-		let headers = new Headers();
+		let headers = new HttpHeaders();
 		headers.append('Content-Type', 'application/json');
 		return this.http.post(this.url + 'getProductMasterCharacteristic', param, { headers: headers })
 			.map(res => {
-				if (res.json().success) {
-					// console.log('res.results', res.json().results);
-					return res.json().results;
+				if (res['success']) {
+					return res['results'];
 				}
 			})
 	}
-
+	// เบิกของ
+	getProductFromStock(criteria: any) {
+		let param = {
+			"txtWarehouseCode": criteria.txtWarehouseCode,
+			"txtProductCode": criteria.txtProductCode,
+			"txtQty": criteria.txtQty,
+			"txtDocumentNo": criteria.txtDocumentNo,
+			"txtTransBy": criteria.sales,
+			"docType": criteria.docType
+		};
+		let headers = new HttpHeaders();
+		headers.append('Content-Type', 'application/json');
+		return this.http.post(this.url + 'Stock/GetProductCenterFromStock', param, { headers: headers })
+			.map(res => {
+				if (res['Result']) {
+					return res['Description'];
+				}
+			});
+	}
+	// คืนของ
+	putProductToStock(criteria: any) {
+		let param = {
+			"txtWarehouseCode": criteria.txtWarehouseCode,
+			"txtProductCode": criteria.txtProductCode,
+			"txtQty": criteria.txtQty,
+			"txtDocumentNo": criteria.txtDocumentNo,
+			"txtTransBy": criteria.txtTransBy,
+			"docType": criteria.docType
+		};
+		let headers = new HttpHeaders();
+		headers.append('Content-Type', 'application/json');
+		return this.http.post(this.url + 'Stock/PutProductCenterToStock', param, { headers: headers })
+			.map(res => {
+				if (res['success']) {
+					// console.log('res.Description', res['Description']);
+					return res['Description'];
+				}
+			});
+	}
+	// สร. ของเซลล์เงินสด
+	getWarehouse(salesmanCode): Observable<any> {
+		let param = {
+			"salesmanCode": salesmanCode
+		}
+		let headers = new HttpHeaders();
+		headers.append('Content-Type', 'application/json');
+		return this.http.post(this.url + 'vansales/getWarehouseCodeBySalesmanCode', param, { headers: headers })
+			.map(res => {
+				if (res['success']) {
+					// console.log('res.results', res['results']);
+					return res['results'];
+				}
+			});
+	}
 	// เช็คของ
 	checkStock(criteria: any): Observable<any> {
 		let param = {
@@ -262,14 +316,14 @@ export class VansalesProvider {
 			"txtDocumentNo": "",
 			"txtTransBy": ""
 		};
-		let headers = new Headers();
+		let headers = new HttpHeaders();
 		headers.append('Content-Type', 'application/json');
 		return this.http.post(this.url + 'Stock/SearchCenterStockProductBalance', param, { headers: headers })
 			.map(res => {
-				if (res.json().Result === 'Y') {
+				if (res['Result'] === 'Y') {
 					return 'Y';
-				} else if (res.json().Result === 'N') {
-					console.warn('warning', res.json().QtyBalance + '<' + criteria.txtQty);
+				} else if (res['Result'] === 'N') {
+					console.warn('warning', res['QtyBalance'] + '<' + criteria.txtQty);
 					return 'N';
 				}
 			});
@@ -284,14 +338,14 @@ export class VansalesProvider {
 			"txtDocumentNo": "",
 			"txtTransBy": ""
 		};
-		let headers = new Headers();
+		let headers = new HttpHeaders();
 		headers.append('Content-Type', 'application/json');
 		return this.http.post(this.url + 'Stock/ReserveCenterStockProductBalance', param, { headers: headers })
 			.map(res => {
-				if (res.json().Result === 'Success') {
+				if (res['Result'] === 'Success') {
 					return true;
-				} else if (res.json().Result === 'Fail') {
-					console.warn('warning', res.json().Msg);
+				} else if (res['Result'] === 'Fail') {
+					console.warn('warning', res['Msg']);
 					return false;
 				}
 			});
@@ -306,14 +360,14 @@ export class VansalesProvider {
 			"txtDocumentNo": "",
 			"txtTransBy": "C461"
 		};
-		let headers = new Headers();
+		let headers = new HttpHeaders();
 		headers.append('Content-Type', 'application/json');
 		return this.http.post(this.url + 'Stock/CancelReserveCenterStockProductBalance', param, { headers: headers })
 			.map(res => {
-				if (res.json().Result === 'Success') {
+				if (res['Result'] === 'Success') {
 					return 'Y';
-				} else if (res.json().Result === 'N') {
-					console.warn('warning', res.json().Msg);
+				} else if (res['Result'] === 'N') {
+					console.warn('warning', res['Msg']);
 					return 'N';
 				}
 			});
@@ -328,20 +382,21 @@ export class VansalesProvider {
 			"txtDocumentNo": "",
 			"txtTransBy": "C461"
 		};
-		let headers = new Headers();
+		let headers = new HttpHeaders();
 		headers.append('Content-Type', 'application/json');
 		return this.http.post(this.url + 'Stock/CutProductStockBalance', param, { headers: headers })
 			.map(res => {
-				if (res.json().Result === 'Success') {
+				if (res['Result'] === 'Success') {
 					return 'Y';
-				} else if (res.json().Result === 'N') {
-					console.warn('warning', res.json().Msg);
+				} else if (res['Result'] === 'N') {
+					console.warn('warning', res['Msg']);
 					return 'N';
 				}
 			});
 	}
 
-	// refrac me plz
+	// refractored testing
+	/* 
 	reGroupProductAndPremiumProduct(cart, promotion) {
 		let product: any = {
 			"txtWarehouseCode": "",
@@ -357,17 +412,6 @@ export class VansalesProvider {
 				"txtQty": +(promotion[i].qty * promotion[i].packingsize) + (+promotion[i].qtyp)
 			}
 			productList.push(product);
-
-			// test if number is string can save?
-			// test
-			// promotion[i].discountCalcAmount += '';
-			promotion[i].discountcalcamount = promotion[i].discountCalcAmount;
-			// promotion[i].discountamount += '';
-			// promotion[i].discountpercentamount += '';
-			// promotion[i].discountspecialprice += '';
-
-			promotion[i].remark = '';
-			// test
 
 			// TODO loop cart  map promotion to cart 
 			// check if haveDiscount
@@ -488,8 +532,9 @@ export class VansalesProvider {
 
 		}
 		return productList;
-	}
-	// refrac me plz
+	} 
+	*/
+	// refractored testing
 
 	// product
 
@@ -512,15 +557,123 @@ export class VansalesProvider {
 			"customerArea": appParam.customer.customerArea,
 			"productCode": productCode
 		};
-		let headers = new Headers();
+		let headers = new HttpHeaders();
 		headers.append('Content-Type', 'application/json');
 		return this.http.post(this.url + 'spcmaster/getPromotionMasterALL', param, { headers: headers })
 			.map(res => {
-				if (res.json().success) {
-					// console.log('promotionList', res.json().results);
-					return res.json().results;
+				if (res['success']) {
+					return res['results'];
 				}
 			});
 	}
 	// promotion
+
+	manageSoModel(salesOrder: string | null | number) {
+		let soModel: any = {
+			"action": "save",
+			"doctype": "SO",
+			"models": []
+		}
+		// for (let so of salesOrder) {
+		soModel.models.push(
+			{
+				"name": 'aaa'
+			}
+		);
+		// }
+		console.log('soModel', soModel);
+	}
+
+	saveSo(): Observable<any> {
+		let param: any = {
+			"action": "save",
+			"doctype": "SO",
+			"models": [
+				{
+					"modelname": "SOHead",
+					"modeldata": [
+						{
+							"sono": "",
+							"sodate": "2017-10-24",
+							"orgcode": "SPC",
+							"comcode": "SPC",
+							"corpcode": "SOP",
+							"refcomcode": "SPC",
+							"bancode": "x",
+							"maccode": "x",
+							"acccode": "x",
+							"customercode": "x",
+							"divisionsale": "B",
+							"salesbuycode": "x",
+							"salesbuytype": "CS",
+							"salesmancode": "S001",
+							"totalamount": "400",
+							"totaldiscountbyproduct": "30",
+							"discountbybill": "100",
+							"totaldiscount": "130",
+							"nettotal": "270",
+							"vatamount": "18",
+							"amountvat": "288",
+							"promotionbillcode": "pr01",
+							"deliverydate": "2017-10-25",
+							"deliveryto": "x",
+							"pricetype": "x",
+							"taxcode": "x",
+							"vatrate": "7",
+							"paymenttypecode": "x",
+							"remark": "x",
+							"salesorderstatus": "A",
+							"workflowstatus": "A",
+							"orderref": "x",
+							"recordstatus": "A",
+							"createby": "IT001",
+							"createdt": "2017-10-24",
+							"updateby": "IT001",
+							"updatedt": "2017-10-24"
+						}
+					]
+				},
+				{
+					"modelname": "SODetail",
+					"modeldata": [
+						{
+							"seq": "1",
+							"sono": "",
+							"orgcode": "SPC",
+							"comcode": "SPC",
+							"corpcode": "SOP",
+							"refcomcode": "SPC",
+							"productcode": "p001",
+							"packingsize": "0",
+							"sectioncode": "x",
+							"quantity": "300",
+							"unitprice": "5",
+							"promotionbyproductcode": "pr02",
+							"discountpercentamount": "15",
+							"discountspecialprice": "55",
+							"discountcalcamount": "5",
+							"remark": "",
+							"productstatus": "A",
+							"salesorderstatus": "A",
+							"recordstatus": "A",
+							"createby": "IT001",
+							"createdt": "2017-10-24",
+							"updateby": "IT001",
+							"updatedt": "2017-10-24"
+						}
+					]
+				}
+			]
+		};
+		let headers = new HttpHeaders();
+		headers.append('Content-Type', 'application/json');
+		return this.http.post(this.url + 'b2bws/ManageModelBo', param, { headers: headers })
+			.map(res => {
+				if (res['success']) {
+					console.log(res['result']);
+					return res['result'];
+				}
+			});
+	}
+
 }

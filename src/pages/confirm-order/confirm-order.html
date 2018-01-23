@@ -2,6 +2,15 @@
 
   <ion-navbar color="spc">
     <ion-title text-center>ยืนยันการสั่งซื้อ/ขาย</ion-title>
+    <ion-item>
+      <button ion-button item-left (click)="testLaunchAndListener()"> 
+        <ion-icon no-padding name="exit"></ion-icon>
+        open Print app
+      </button>
+      <button ion-button item-right (click)="goToPayment()"> 
+        ไปหน้าเก็บเงิน
+      </button>
+    </ion-item>
   </ion-navbar>
 
 </ion-header>

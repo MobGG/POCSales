@@ -1,0 +1,34 @@
+<ion-header>
+
+  <ion-navbar color="spc">
+    <ion-title text-center>การเก็บเงิน</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding class="bg-color">
+
+  <ion-item no-lines margin-bottom>
+    <h1 no-padding>ลูกค้า: </h1>
+  </ion-item>
+
+  <ion-list>
+    <ion-item *ngFor="let debt of debtList">
+      <ion-checkbox item-start [(ngModel)]="debt.payStatus"></ion-checkbox>
+      <ion-label> {{ debt.billCode }} {{ debt.amount }} {{ debt.pay }} </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab right bottom>
+    <button ion-fab color="secondary">เพิ่ม</button>
+  </ion-fab>
+
+</ion-content>
+
+<ion-footer>
+  ยอดหนี้ {{ debtTotal }} <br> จ่ายแล้ว {{ payTotal }} <br>
+  <ion-row>
+    <button ion-button ion-col col-6 color="danger">ล้าง</button>
+    <button ion-button ion-col col-6 (click)="pay()">จ่าย</button>
+  </ion-row>
+</ion-footer>

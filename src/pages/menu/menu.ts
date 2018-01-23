@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { App, IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { App, IonicPage, NavController, Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen';
+
+import { Observable } from "rxjs";
+import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 
 @IonicPage()
 @Component({
@@ -9,15 +12,18 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   templateUrl: 'menu.html',
 })
 export class MenuPage {
+  appParam: any;
 
   constructor(
     private app: App,
     private navCtrl: NavController,
-    private navParams: NavParams,
     private platform: Platform,
     private storage: Storage,
     private splashScreen: SplashScreen
   ) {
+    // IntervalObservable.create(3000).subscribe(() => {
+    //   console.log("test");
+    // });
   }
 
   ionViewDidLoad() {
@@ -28,12 +34,40 @@ export class MenuPage {
     });
   }
 
-  goToStock() {
-    this.navCtrl.push('StockVanPage');
+  goToStockHistory() {
+    this.navCtrl.push('StockHistoryPage');
+  }
+
+  goToGetProduct() {
+    this.navCtrl.push('GetProductPage');
+  }
+
+  goToReturnProduct() {
+    this.navCtrl.push('ReturnProductPage');
+  }
+
+  goToTarget() {
+    this.navCtrl.push('Target');
+  }
+
+  goToCollectPay() {
+    this.navCtrl.push('DebtCollectPage');
+  }
+
+  goToPayment() {
+    this.navCtrl.push('PaymentPage');
+  }
+
+  goToPaymentModal() {
+    this.navCtrl.push('PaymentModalPage');
   }
 
   goToTripsale() {
-    this.navCtrl.push('TripSales');
+    this.navCtrl.setRoot('TripSales');
+  }
+
+  goToCustomPromotion() {
+    this.navCtrl.push('CustomPromotionPage');
   }
 
   logout() {

@@ -1,0 +1,44 @@
+<ion-header>
+
+  <ion-navbar color="spc">
+    <ion-title>Manage Stock Van</ion-title>
+  </ion-navbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="stock">
+      <ion-segment-button value="sr">
+        สต๊อก สร.
+      </ion-segment-button>
+      <ion-segment-button value="van">
+        สต๊อก Van
+      </ion-segment-button>
+    </ion-segment>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content padding class="bg-color">
+
+  <div [ngSwitch]="stock">
+
+    <ion-list *ngSwitchCase="'sr'">
+      <button ion-item *ngFor="let sr of stockSR">
+        <ion-row>
+          <div ion-col col-12 col-sm-7 col-md-7 text-wrap> รหัส </div>
+          <div ion-col col-12 col-sm-5 col-md-5 text-wrap> วันที่ </div>
+        </ion-row>
+      </button>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'van'">
+      <button ion-item *ngFor="let van of stockVan">
+        <ion-row>
+          <div ion-col col-12 col-sm-7 col-md-7 text-wrap> รหัส </div>
+          <div ion-col col-12 col-sm-5 col-md-5 text-wrap> วันที่ </div>
+        </ion-row>
+      </button>
+    </ion-list>
+
+  </div>
+
+</ion-content>

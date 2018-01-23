@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-navbar color="spc">
+    <ion-title text-center>ชำระเงิน</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="bg-color">
+
+  <ion-card padding>
+    <ion-row no-padding>
+      <ion-label ion-col>เลขที่บิล: จากตอน save </ion-label>
+    </ion-row>
+    <ion-row no-padding>
+      <ion-label ion-col>ร้าน: เก็บรหัส แสดงชื่อ</ion-label>
+    </ion-row>
+    <ion-row>
+      <ion-label ion-col>คลัง: </ion-label>
+    </ion-row>
+    <ion-row no-padding>
+      <ion-label ion-col>จำนวนเงิน </ion-label>
+      <ion-input type="number"></ion-input>
+    </ion-row>
+  </ion-card>
+
+  <ion-card padding>
+    <ion-item no-padding>
+      <ion-label color="primary-text-color"> ประเภทการชำระเงิน </ion-label>
+      <ion-select placeholder="ไม่ได้เลือก" [(ngModel)]="warehouseCode">
+        <ion-option *ngFor="let stock of stockList" [value]="stock.storeid">
+          {{stock.storeid}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item no-padding>
+      <ion-label color="primary-text-color"> ประเภทบิล </ion-label>
+      <ion-select placeholder="ไม่ได้เลือก" [(ngModel)]="warehouseCode">
+        <ion-option *ngFor="let stock of stockList" [value]="stock.storeid">
+          {{stock.storeid}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-card>
+
+</ion-content>
+
+<ion-footer no-border no-padding>
+  <button ion-button full block (click)="pay()">จ่าย</button>
+  <button ion-button full block color="secondary" [disabled]="true">พิมพ์บิล</button>
+</ion-footer>

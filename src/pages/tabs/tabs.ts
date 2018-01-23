@@ -9,6 +9,7 @@ export class Tabs {
 
   tabTripSales = 'TripSales';
   tabTarget = 'Target';
+  tabTodaySales = 'TodaySalesPage';
 
   constructor() {
 

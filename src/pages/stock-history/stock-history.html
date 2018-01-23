@@ -1,0 +1,45 @@
+<ion-header>
+
+  <ion-navbar color="spc">
+    <ion-title text-center>ประวัติการเบิก/คืนสินค้า</ion-title>
+  </ion-navbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="type">
+      <ion-segment-button value="get">
+        เบิกสินค้า
+      </ion-segment-button>
+      <ion-segment-button value="put">
+        คืนสินค้า
+      </ion-segment-button>
+    </ion-segment>
+
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding class="bg-color">
+
+  <div [ngSwitch]="type">
+
+    <ion-list *ngSwitchCase="'get'">
+      <button ion-item *ngFor="let form51 of form51s">
+        <ion-row>
+          <div ion-col col-12 col-sm-7 col-md-7 text-wrap> รหัส </div>
+          <div ion-col col-12 col-sm-5 col-md-5 text-wrap> วันที่ </div>
+        </ion-row>
+      </button>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'put'">
+      <button ion-item *ngFor="let form52 of form52s">
+        <ion-row>
+          <div ion-col col-12 col-sm-7 col-md-7 text-wrap> รหัส </div>
+          <div ion-col col-12 col-sm-5 col-md-5 text-wrap> วันที่ </div>
+        </ion-row>
+      </button>
+    </ion-list>
+
+  </div>
+
+</ion-content>

@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -32,6 +33,7 @@ import { ProductProvider } from '../providers/product/product';
 import { PromotionProvider } from '../providers/promotion/promotion';
 import { ManageFileProvider } from '../providers/manage-file/manage-file';
 import { DiagnosticProvider } from '../providers/diagnostic/diagnostic';
+import { VansalesProvider } from '../providers/vansales/vansales';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { DiagnosticProvider } from '../providers/diagnostic/diagnostic';
   imports: [
     BrowserModule,
     HttpModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp, {
       tabsHideOnSubPages: true,
     }),
@@ -78,6 +81,7 @@ import { DiagnosticProvider } from '../providers/diagnostic/diagnostic';
     PromotionProvider,
     ManageFileProvider,
     DiagnosticProvider,
+    VansalesProvider,
   ]
 })
 export class AppModule { }

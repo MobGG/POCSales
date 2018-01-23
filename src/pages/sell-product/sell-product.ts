@@ -1,193 +1,242 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, NavController, ModalController, NavParams, Platform } from 'ionic-angular';
 import { LoadingProvider } from '../../providers/loading/loading';
-import { StorageProvider } from '../../providers/storage/storage';
-import { ProductProvider } from '../../providers/product/product'
+
+import { VansalesProvider } from '../../providers/vansales/vansales';
+import { HelperProvider } from '../../providers/helper/helper';
 
 @IonicPage()
 @Component({
   selector: 'page-sell-product',
   templateUrl: 'sell-product.html',
 })
+
 export class SellProductPage {
-  user: any;
-  customer: any;
+  appParam: any;
   cart: any;
   total: number;
-  discount: number;
-  net: number;
   rewards: any;
   rewardText: any = [];
-  disablePaymentBtn: boolean;
+  disableCalBtn: boolean;
+  disableNextPageBtn: boolean;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private modalCtrl: ModalController,
     private loadingProvider: LoadingProvider,
-    private storageProvider: StorageProvider,
     private platform: Platform,
-    private productProvider: ProductProvider
+    
+    private vansalesProvider: VansalesProvider,
+    private helper: HelperProvider,
   ) {
-
+    this.appParam = navParams.get('appParam');
+    this.total = 0;
+    // this.checkPromotionC4();
+    this.disableNextPageBtn = true;
+    console.log('appParam', this.appParam);
   }
 
   ionViewDidLoad() {
-    this.platform.ready().then(() => {
 
-      this.disablePaymentBtn = true;
+  }
 
-      this.storageProvider.load('Cart').then((res: Object[]) => {
-        this.cart = res;
-        // console.log('get cart', this.cart);
-      }).catch(err => console.log(err));
-
-      this.storageProvider.load('AuthToken').then(res => {
-        this.user = res;
-        // console.log('get user', this.user);
-      }).catch(err => console.log('error', err));
-
-      this.storageProvider.load('Customer').then(res => {
-        this.customer = res[0]
-        // console.log('get customer', this.customer);
-      }).catch(err => console.log('error', err));
+  editOrder(productOrder) {
+    let createPromotion = this.modalCtrl.create('OrderProductPage', { product: productOrder, appParam: this.appParam });
+    createPromotion.present();
+    createPromotion.onDidDismiss((product) => {
+      if (product) {
+        productOrder.orderB = product.orderB;
+        productOrder.orderP = product.orderP;
+      }
     });
   }
 
-  validateOrder(product) {
-    let cart = this.cart;
-    for (let i = 0; i < cart.length; i++) {
-      if (cart[i].order_package === 0 && cart[i].order_piece === 0) {
-        this.disablePaymentBtn = true;
-        break;
-      } else if (cart[i].order_package > cart[i].qty_package || cart[i].order_piece > cart[i].order_piece) {
-        this.disablePaymentBtn = true;
-        break;
-      }
-      else {
-        product.total_price = ((product.order_package * product.qty_per_package) * product.price_per_piece) + (product.order_piece * product.price_per_piece);
-        this.disablePaymentBtn = false;
-      }
-    }
-  }
-
-  // validateStock(product) {
-  //   // validate pack
-  //   if (product.order_package > product.qty_package) {
-  //     product.out_of_stock_package = true;
-  //     this.disablePaymentBtn = true;
-  //   } else {
-  //     product.out_of_stock_package = false;
-  //     this.disablePaymentBtn = false;
-  //   }
-  //   // validate piece
-  //   if (product.order_piece > (product.qty_package * product.qty_per_package) + product.qty_piece) {
-  //     product.out_of_stock_piece = true;
-  //     this.disablePaymentBtn = true;
-  //   } else {
-  //     product.out_of_stock_piece = false;
-  //     this.disablePaymentBtn = false;
-  //   }
-  //   // console.log('product', product);
-  // }
-
-  validatePackage(product) {
-    // validate pack
-    product.order_package = Number(product.order_package);
-    if (product.order_package > product.qty_package) {
-      product.out_of_stock_package = true;
-      this.disablePaymentBtn = true;
-    } else {
-      product.out_of_stock_package = false;
-    }
-  }
-
-  validatePiece(product) {
-    // validate piece
-    product.order_piece = Number(product.order_piece);
-    if (product.order_piece > (product.qty_package * product.qty_per_package) + product.qty_piece) {
-      product.out_of_stock_piece = true;
-      this.disablePaymentBtn = true;
-    } else {
-      product.out_of_stock_piece = false;
-    }
-  }
-
-  calculateC4() {
+  checkPromotionC4() {
     let content = 'กำลังคิดโปรโมชัน...';
     let loader = this.loadingProvider.showLoading(content);
 
-    let orderHead = {
-      "salesmanCode": this.user.usercode,
-      "divisionSale": this.user.divisioncode,
-      "customerCode": "",
-      "customerGroup": this.customer.customergroup,
-      "customerArea": this.customer.customerArea,
-      "custSectionGrad": "",
-      "orderDate": "28/02/2017", // todo change to device current date
-    };
-    let detail = {
-      "productCode": "",
-      "qty": "",
-      "qtyp": "",
-    }
-    let orderDetail = [];
-    for (let order of this.cart) {
-      detail = {
-        "productCode": order.product_id,
-        "qty": "" + order.order_package,
-        "qtyp": "" + order.order_piece,
-      }
-      orderDetail.push(detail);
-    }
-    let criteria = {
-      "salesmanCode": orderHead.salesmanCode,
-      "divisionSale": orderHead.divisionSale,
-      "customerCode": orderHead.customerCode,
-      "customerGroup": orderHead.customerGroup,
-      "customerArea": orderHead.customerArea,
-      "custSectionGrad": orderHead.custSectionGrad,
-      "orderDate": orderHead.orderDate,
-      "saleorderDtl": orderDetail
-    };
+    this.vansalesProvider.checkPromotionC4(this.appParam)
+      .subscribe(res => {
+        if (res.orderDtlpromotion) {
+          // console.log('orderDtlpromotion', res.orderDtlpromotion);
+          let promotion = res.orderDtlpromotion;
+          this.appParam.promotion = promotion;
+          // console.log('appParam', this.appParam);
 
-    console.log("criteria", criteria);
-    this.productProvider.calculateC4(criteria)
-      .then((resolve) => {
-        console.log('promotions', resolve);
-        this.rewardText = [];
-        this.rewards = resolve;
-        for (let reward of this.rewards) {
-          if (reward.calcpromotion) {
-            if (reward.calcpromotion.discountCalcAmount) {
-              let text: string = reward.productCode + 'ได้รับส่วนลด ' + reward.calcpromotion.discountCalcAmount + ' บาท';
-              this.rewardText.push(text);
-              // console.log(reward.productCode + 'ได้รับส่วนลด ' + reward.calcpromotion.discountCalcAmount + ' บาท');
-            } else if (reward.calcpromotion.freepremiumquantity) {
-              let text: string = 'แถม ' + reward.calcpromotion.premiumproduct + ' ฟรี ' + reward.calcpromotion.freepremiumquantity + ' ชิ้น';
-              this.rewardText.push(text);
-              // console.log('แถม ' + reward.calcpromotion.premiumproduct + ' ฟรี ' + reward.calcpromotion.freepremiumquantity + ' ชิ้น');
-            }
-          }
+          let productList: any[] = [];
+          this.appParam.cart = this.setDiscountToCartProduct(this.appParam.cart, this.appParam.promotion);
+          productList = this.combineProduct(this.appParam.cart, this.appParam.promotion);
+          // this.appParam.stock = productList;
 
-          if (this.rewardText) loader.dismiss();
+
+          this.checkStockOnline(productList);
+
+          console.log('cart', this.appParam.cart);
+          console.log('promotion', this.appParam.promotion);
+          console.log('productList', productList);
+
+
+          this.getTotal(this.appParam.cart);
+          loader.dismiss();
+        } else {
+          // console.log('mock return promotion', 'fixed discount and premium');
+          // for (let i = 0; i < this.appParam.cart.length; i++) {
+          //   this.appParam.cart[i].discount = 100;
+          //   this.appParam.cart[i].totalPrice = this.appParam.cart[i].sumPrice - this.appParam.cart[i].discount;
+
+          //   this.appParam.cart[i].premiumProduct = {
+          //     'premiumProductCode': this.appParam.cart[i].productCode,
+          //     'premiumProductName': this.appParam.cart[i].palmProductNamet,
+          //     'premiumProductPackingSize': this.appParam.cart[i].packingSize,
+          //     'premiumProductQty': 1,
+          //     'premiumProductUnit': 'B',
+          //   }
+
+          // }
+          // console.log('cart after mock promotion', this.appParam.cart);
+          // this.getTotal(this.appParam.cart);
+
+          // loader.dismiss();
         }
-      }).catch((reject) => {
-        console.warn('error', reject);
-        loader.dismiss();
+
       });
   }
 
-  removeFormCart(product) {
-    let tempCart = [];
-    this.cart = this.cart.filter(cart => {
-      if (cart.product_id !== product.product_id) {
-        tempCart.push(cart);
-        return cart;
+  setDiscountToCartProduct(cart, promotion): any[] {
+    for (let cartProduct of cart) {
+      for (let promotionProduct of promotion) {
+        // todo put in loop combine cart and promotion
+        if (cartProduct.productCode === promotionProduct.productCode) {
+          cartProduct.sumPrice = (+cartProduct.orderB) * (+cartProduct.unitPrice) + (+cartProduct.orderP) * (+cartProduct.piecePrice);
+          cartProduct.discount = (+promotionProduct.discountCalcAmount);
+          cartProduct.totalPrice = cartProduct.sumPrice - cartProduct.discount;
+        }
       }
-    });
-    this.storageProvider.save('Cart', tempCart).then(() => {
-      console.log('cart', tempCart);
-    });
+    }
+    return cart;
+  }
+
+  combineProduct(cart, promotion): any[] {
+    let productList: any[] = [];
+    let productModel: any = {
+      "txtWarehouseCode": "",
+      "txtProductCode": "",
+      "txtQty": 0,
+    };
+    let existProduct: boolean = false;
+
+    for (let product of promotion) {
+      if (!this.helper.isEmpty(product.premiumproduct)) {
+        // check premiumProductSize 'B'=0 or 'P'=9
+        if (product.premiumunit === 'P') {
+          productModel = {
+            "txtWarehouseCode": cart[0].warehouseCode,
+            "txtProductCode": product.premiumproduct,
+            "txtQty": +(product.freepremiumquantity)
+          }
+          productList.push(productModel);
+        } else if (product.premiumunit === 'B') {
+          productModel = {
+            "txtWarehouseCode": cart[0].warehouseCode,
+            "txtProductCode": product.premiumproduct,
+            "txtQty": (+product.freepremiumquantity) * (+product.premiumpackingsize)
+          }
+          productList.push(productModel);
+        }
+      }
+    }
+    for (let cartProduct of cart) {
+      for (let product of productList) {
+        if (cartProduct.productCode === product.txtProductCode) {
+          product.txtQty += +(cartProduct.orderB * cartProduct.packingSize) + (+cartProduct.orderP);
+          existProduct = true;
+          break;
+        }
+      }
+      if (!existProduct) {
+        productModel = {
+          "txtWarehouseCode": cartProduct.warehouseCode,
+          "txtProductCode": cartProduct.productCode,
+          "txtQty": +(cartProduct.orderB * cartProduct.packingSize) + (+cartProduct.orderP)
+        }
+        productList.push(productModel);
+      }
+      // console.log('cart', cart);
+      // console.log('promotion', promotion);
+      // console.log('productList', productList);
+    }
+    return productList;
+  }
+
+  checkStockOnline(productList) {
+    for (let i = 0; i < productList.length; i++) {
+      // cannot reproduce bug when buy product a get freePremium b 
+      // but after checkStock freePremium b status = N need more time and test data
+      this.vansalesProvider.checkStock(productList[i])
+        .subscribe(status => {
+          if (status) {
+            productList[i].status = status;
+
+            for (let j = 0; j < this.appParam.cart.length; j++) {
+              if (productList[i].txtProductCode === this.appParam.cart[j].productCode) {
+                productList[i].status = status;
+                if (status === 'Y') {
+                  this.appParam.cart[j].outOfStockB = false;
+                  this.appParam.cart[j].outOfStockP = false;
+                  this.disableNextPageBtn = false;
+                } else if (status === 'N') {
+                  this.appParam.cart[j].outOfStockB = true;
+                  this.appParam.cart[j].outOfStockP = true;
+                  this.disableNextPageBtn = true;
+                  // break;
+                }
+              } else {
+                productList[i].status = status;
+              }
+            }
+            if (productList[i].status === 'N') {
+              this.disableNextPageBtn = true;
+              return false;
+            }
+          } else {
+            console.warn('network error!?');
+          }
+        });
+
+    }
+
+  }
+
+  getTotal(cart) {
+    this.total = 0;
+    if (cart) {
+      for (let i = 0; i < cart.length; i++) {
+        this.total += cart[i].totalPrice;
+      }
+    }
+  }
+
+  removeFormCart(productIndex) {
+    this.appParam.cart.splice(productIndex, 1);
+    this.disableNextPageBtn = true;
+    console.log(this.appParam.cart);
+  }
+
+  pushConfirmOrderPage() {
+    console.log('appParam', this.appParam);
+    // ราคาสินค้ารวม vat อยู่แล้ว พี่หนึ่งบอก
+    let vat = 7;
+    let vatAmount = (this.total * vat) / 100;
+    let total = this.total - vatAmount;
+    let netTotal = this.total;
+    this.appParam.money = {
+      "total": total,
+      "vat": vat,
+      "vatAmount": vatAmount,
+      "netTotal": netTotal
+    }
+    this.navCtrl.push('ConfirmOrderPage', { 'appParam': this.appParam });
   }
 
 }

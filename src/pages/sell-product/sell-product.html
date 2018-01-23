@@ -1,167 +1,108 @@
 <ion-header>
 
   <ion-navbar color="spc">
-    <ion-title text-center>SellProduct</ion-title>
+    <ion-title text-center>คำนวณโปรโมชั่น</ion-title>
   </ion-navbar>
 
 </ion-header>
-<!-- todo -->
-<!-- เปลี่ยน เป็น card -->
-<!-- ย้ายปุ่ม ลบ มาไว้มุมขวาบน -->
 
-<!--<ion-content>-->
 <ion-content class="bg-color">
 
-  <ion-card class="adv-map">
-    <div style="position: relative">
-      <ion-fab right top>
-        <button ion-fab color="danger" class="fab-map" (click)="removeFormCart(product)">
-        <ion-icon name="trash"></ion-icon>
-      </button>
-      </ion-fab>
-      <ion-card-header>
-        Explore Nearby
-      </ion-card-header>
-    </div>
-    <ion-card-content>
-      <ion-card-title>
-        Nine Inch Nails Live
-      </ion-card-title>
-      <p>
-        The most popular industrial group ever, and largely responsible for bringing the music to a mass audience.
-      </p>
-    </ion-card-content>
-  </ion-card>
+  <ion-card padding-horizontal class="adv-map" *ngFor="let product of appParam.cart; let i = index">
 
-  <ion-card class="adv-map" *ngFor="let product of cart">
-    <div style="position: relative">
-      <ion-fab right top>
-        <button ion-fab color="danger" class="fab-map" (click)="removeFormCart(product)">
-        <ion-icon name="close"></ion-icon>
-      </button>
-      </ion-fab>
-    </div>
-    <ion-card-content>
+    <ion-card-title no-padding>
 
-      <ion-card-title>
-        <h1>
-          {{product.product_id}} - {{product.name_loc}}
-        </h1>
-      </ion-card-title>
-      <ion-row>
-        <div ion-col col-12>
-          ทุกๆ xx ชิ้น แถม a xx ชิ้น / ทุกๆ xx ชิ้น ลดราคา xx บาท
-        </div>
-      </ion-row>
-      <ion-row>
-        <div ion-col col-3>
-          จำนวนที่เหลือ {{ product.qty_package }} / {{product.qty_piece}}
-        </div>
-        <div ion-col col-3>
-          จำนวนต่อหีบ {{ product.qty_per_package }} ชิ้น
-        </div>
-        <div ion-col col-3>
-          ราคาต่อหีบ {{ product.price_per_package }} บาท
-        </div>
-        <div ion-col col-3>
-          ราคาต่อชิ้น {{ product.price_per_piece }} บาท
-        </div>
-      </ion-row>
-
-      <ion-row>
-
-        <ion-col col-3>
-          <ion-item no-padding>
-            <ion-input text-right type="number" min="0" required (input)="validatePackage(product)" (blur)="validateOrder(product)" [(ngModel)]="product.order_package">
-              / </ion-input>
-          </ion-item>
-          <p text-center *ngIf="product.out_of_stock_package" class="error-color">สินค้ามีไม่พอ</p>
-        </ion-col>
-        <ion-col col-3>
-          <ion-item no-padding>
-            <ion-input text-right type="number" min="0" required (input)="validatePiece(product)" (blur)="validateOrder(product)" [disabled]="!product.can_break"
-              [(ngModel)]="product.order_piece"></ion-input>
-          </ion-item>
-          <p text-center *ngIf="product.out_of_stock_piece" class="error-color">สินค้ามีไม่พอ</p>
-        </ion-col>
-        <!--<ion-col col-3></ion-col>-->
-        <ion-col col-3>
-          <ion-item no-padding>
-            <ion-label text-right>{{product.total_price | number:'1.2-2'}}</ion-label>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-
-    </ion-card-content>
-    <!-- show {{id+name}} {{promotion text}} -->
-    <!-- show {{qty/qtyp}} {{order/orderp}} -->
-    <!-- show {{id+name}} {{promotion text}} -->
-
-  </ion-card>
-
-
-
-  <ion-row *ngFor="let product of cart">
-    <ion-col col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4>
-      <!--<ion-col>-->
-      <!--<ion-item no-lines>-->
-      {{product.product_id}}-{{product.name_loc}}
-      <!--<ion-label text-left>{{product.product_id}}-{{product.name_loc}}</ion-label>-->
-      <!--</ion-item>-->
-    </ion-col>
-    <ion-col col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4>
-      ทุกๆ xx ชิ้น แถม a xx ชิ้น / ทุกๆ xx ชิ้น ลดราคา xx บาท
-    </ion-col>
-    <ion-col col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4>
-      <!--<ion-col>-->
-      <!--<ion-item no-lines>-->
-      <!--<ion-label>-->
-      {{product.qty_package}} / {{product.qty_piece}}
-      <!--</ion-label>-->
-      <!--</ion-item>-->
-    </ion-col>
-    <ion-col>
-      <ion-item>
-        <ion-input text-right type="number" min="0" required (input)="validatePackage(product)" (blur)="validateOrder(product)" [(ngModel)]="product.order_package">
-          / </ion-input>
-      </ion-item>
-      <p text-center *ngIf="product.out_of_stock_package" class="error-color">สินค้ามีไม่พอ</p>
-    </ion-col>
-    <ion-col>
       <ion-item no-padding>
-        <ion-input text-right type="number" min="0" required (input)="validatePiece(product)" (blur)="validateOrder(product)" [disabled]="!product.can_break"
-          [(ngModel)]="product.order_piece"></ion-input>
+
+        <ion-row>
+          <h1 ion-col col-6 no-padding>
+            {{ product.productCode }}{{ product.palmProductNamet }}
+          </h1>
+        </ion-row>
+
+        <button ion-fab item-right color="primary" class="fab-map" (click)="editOrder(product)">
+          <ion-icon name="md-create"></ion-icon>
+        </button>
+
+        <button ion-fab item-right color="danger" class="fab-map" (click)="removeFormCart(i)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+        
       </ion-item>
-      <p text-center *ngIf="product.out_of_stock_piece" class="error-color">สินค้ามีไม่พอ</p>
-    </ion-col>
-    <ion-col>
-      <ion-item no-lines>
-        <ion-label text-right>{{product.total_price | number:'1.2-2'}}</ion-label>
+
+    </ion-card-title>
+
+    <ion-card-content no-padding>
+
+      <ion-row no-padding>
+        <ion-item ion-col col-4 no-padding>
+          <ion-label>
+            บรรจุ {{ product.packingSize }}
+          </ion-label>
+        </ion-item>
+        <ion-item ion-col col-4 no-padding>
+          <ion-label>
+            จำนวน {{ product.orderB }}/{{ product.orderP }}
+          </ion-label>
+        </ion-item>
+      </ion-row>
+
+      <ion-row no-padding>
+        <ion-item ion-col col-4 no-padding>
+          <ion-label>
+            ราคาหีบ {{ product.unitPrice | number:'1.2-2'}}
+          </ion-label>
+        </ion-item>
+        <ion-item ion-col col-4 no-padding>
+          <ion-label>
+            ส่วนลด {{product?.discount | number:'1.2-2'}}
+          </ion-label>
+        </ion-item>
+        <ion-item ion-col col-4 no-padding>
+          <ion-label>
+            ราคาสุทธิ {{product?.totalPrice | number:'1.2-2'}}
+          </ion-label>
+        </ion-item>
+      </ion-row>
+
+      <ion-item ion-row no-padding *ngIf="product.premiumProduct.premiumProductCode">
+        <ion-label ion-col col-6 no-padding>
+          แถม {{ product.premiumProduct.premiumProductName }}
+        </ion-label>
+        <ion-label ion-col col-3 no-padding>
+          จำนวน {{ product.premiumProduct.premiumProductQty }}
+        </ion-label>
+        <ion-label ion-col col-3 no-padding>
+          ชิ้น
+        </ion-label>
       </ion-item>
-    </ion-col>
 
-    <button ion-button icon-only clear large color="danger" (click)="removeFormCart(product)">
-      <ion-icon name="trash"></ion-icon>
-    </button>
+    </ion-card-content>
 
-  </ion-row>
-
-  <hr>
-
-  <ion-content *ngIf="rewards?.length > 0">
-    <!--hello world i will be promotion tomorrow-->
-    <h1>Promotion</h1>
-    <ion-row *ngFor="let text of rewardText">
-      {{ text }}
-    </ion-row>
-  </ion-content>
+  </ion-card>
 
 </ion-content>
 
+
+
 <ion-footer no-border no-padding>
 
-  <button ion-button block [disabled]="disablePaymentBtn" (click)="calculateC4()">
+  <ion-item-group no-padding>
+    <ion-item-divider ion-row no-padding color="secondary-text-color">
+      <ion-label ion-col col-12 text-center> รวม {{ total | number: '1.2-2' }} บาท </ion-label>
+      <!--<ion-label ion-col col-6 text-center> รวม </ion-label>
+      <ion-note ion-col col-6 item-right> {{ total | number: '1.2-2' }} บาท </ion-note>-->
+    </ion-item-divider>
+  </ion-item-group>
+
+  <button ion-button block no-padding (click)="checkPromotionC4()" [disabled]="disableCalBtn">
+    <!-- <button ion-button block no-padding (click)="checkPromotionC4()" [disabled]="false"> -->
     คำนวณโปรโมชั่น
+  </button>
+
+  <button ion-button block no-padding color="secondary" [disabled]="disableNextPageBtn" (click)="pushConfirmOrderPage()">
+    <!-- <button ion-button block no-padding color="secondary" [disabled]="false" (click)="pushConfirmOrderPage()"> -->
+    ตรวจสอบการสั่งซื้อ
   </button>
 
 </ion-footer>

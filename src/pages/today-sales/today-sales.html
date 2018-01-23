@@ -1,6 +1,11 @@
 <ion-header>
   <ion-navbar color="spc">
-    <ion-title>todaySales</ion-title>
+    <ion-title text-center>ยอดขายวันนี้</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="sumTodaySoldProducts()">
+        <ion-icon no-padding name="ios-refresh"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 

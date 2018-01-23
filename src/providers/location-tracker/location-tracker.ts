@@ -13,7 +13,7 @@ export class LocationTrackerProvider {
 
   constructor(
     private http: Http,
-    private bgGeo: BackgroundGeolocation,
+    public bgGeo: BackgroundGeolocation,
     private platform: Platform,
     private storage: Storage,
 
@@ -66,16 +66,14 @@ export class LocationTrackerProvider {
       maxLocations: 10000, //default
 
       debug: true, //  enable this hear sounds for background-geolocation life-cycle.
-
-      // test bg save
-      // httpHeaders: { 'salesId': 'MobGG' },
+      // background HTTP locations posting
       httpHeaders: { 'salesId': this.salesman.usercode },
       url: 'http://uateservice.sahapat.com/saveTrackingData', // uat
       syncUrl: 'http://uateservice.sahapat.com/saveSyncFailTrackingData', // uat
       // url: 'http://uateservice.sahapat.com/saveTrackingData', // production
       // syncUrl: 'http://uateservice.sahapat.com/saveSyncFailTrackingData', // production
-      syncThreshold: 10,
-      // test bg save
+      syncThreshold: 5,
+      // background HTTP locations posting
 
       // android only section
       locationProvider: 0,

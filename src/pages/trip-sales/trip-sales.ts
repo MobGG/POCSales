@@ -8,7 +8,7 @@ import { LoadingProvider } from '../../providers/loading/loading';
 import { ConnectivityProvider } from '../../providers/connectivity/connectivity';
 import { CordovaGoogleMapProvider } from '../../providers/cordova-google-map/cordova-google-map';
 import { LocationTrackerProvider } from '../../providers/location-tracker/location-tracker';
-import { SalesProvider } from '../../providers/sales/sales';
+import { VansalesProvider } from '../../providers/vansales/vansales'
 import { NavigatorService } from '../../providers/navigator-service';
 
 @IonicPage()
@@ -34,62 +34,92 @@ export class TripSales {
     private storage: Storage,
     private connectivityService: ConnectivityProvider,
     private cordovaGoogleMapProvider: CordovaGoogleMapProvider,
-    private salesProvider: SalesProvider,
+    private vansalesProvider: VansalesProvider,
     private locationTracker: LocationTrackerProvider,
     private navi: NavigatorService,
   ) {
     console.log('trip sale page');
+
+    this.vansalesProvider.manageSoModel(null);
+
+    // start track
     this.locationTracker.trackSales();
+
+    this.locationTracker.bgGeo.getLocations()
+      .then(res => { // res = saved locations
+        console.log('locations', res);
+      })
+      .catch(err => {
+        console.warn('locations error', err);
+      });
+    this.locationTracker.bgGeo.getValidLocations()
+      .then(res => { // res = saved valid locations
+        console.log('valid locations', res);
+      })
+      .catch(err => {
+        console.warn('valid locations error', err);
+      });
+
   }
 
   ionViewDidLoad() {
     this.platform.ready().then(() => {
       this.splashScreen.hide();
-      if (this.connectivityService.isOnline()) {
-        // create loader
-        let content = 'กำลังเตรียมทริปเซล...';
-        let loader = this.loadingProvider.showLoading(content);
-
-        let key: string = 'AuthToken';
-        this.storage.ready().then(() => {
-          this.storage.get(key).then(user => {
-            this.salesman = user;
-            let criteria = {
-              "salesmanCode": user.usercode,
-              "customerCode": "",
-              "tripDay": ""
-            }
-            let maploaded = this.cordovaGoogleMapProvider.init(this.mapElement.nativeElement);
-            let focusDevice = this.cordovaGoogleMapProvider.focusOnDevice();
-            let tripsSales = this.salesProvider.getSalesmanMaster(criteria);
-            Promise.all([
-              maploaded,
-              tripsSales,
-              focusDevice
-            ]).then((result) => {
-              this.trips = result[1];
-              console.log('trips', this.trips.tripCustomer);
-              this.markers = this.cordovaGoogleMapProvider.convertTripsToMarker(this.trips.tripCustomer);
-              this.cordovaGoogleMapProvider.loadMarker(this.markers);
-
-              if (this.trips) {
-                loader.dismiss();
-              }
-
-            }).catch((err) => {
-              loader.dismiss();
-              console.error('thrownOutError:', err);
-            });
-          });
-        }).catch((err) => {
-          console.error('storage error', err);
-        });
-      } else {
-        alert('โปรดต่อเน็ต');
-      }
+      this.initTripSalesPage();
     }).catch((err) => {
       console.error('platform error', err);
-    })
+    });
+  }
+
+  initTripSalesPage() {
+    if (this.connectivityService.isOnline()) {
+      // create loader
+      let content = 'กำลังเตรียมทริปเซล...';
+      let loader = this.loadingProvider.showLoading(content);
+
+      let key: string = 'AuthToken';
+      this.storage.ready().then(() => {
+        this.storage.get(key).then(user => {
+          this.salesman = user;
+          let criteria = {
+            "salesmanCode": user.usercode,
+            "customerCode": "",
+            "tripDay": ""
+          }
+          let maploaded = this.cordovaGoogleMapProvider.init(this.mapElement.nativeElement);
+          let focusDevice = this.cordovaGoogleMapProvider.focusOnDevice();
+          let tripsSales = this.vansalesProvider.getTripSales(criteria);
+          Promise.all([
+            maploaded,
+            tripsSales,
+            focusDevice
+          ]).then((result) => {
+            this.trips = result[1];
+
+            this.markers = this.cordovaGoogleMapProvider.convertTripsToMarker(this.salesman.usercode, this.trips.tripCustomer);
+            this.cordovaGoogleMapProvider.loadMarker(this.markers);
+
+            console.log('this.markers', this.markers);
+
+
+            if (this.trips) {
+              loader.dismiss().then(() => {
+                // console.log('this.trips', this.trips);
+                // console.log('this.markers', this.markers);
+              });
+            }
+
+          }).catch((err) => {
+            loader.dismiss();
+            console.error('thrownOutError:', err);
+          });
+        });
+      }).catch((err) => {
+        console.error('storage error', err);
+      });
+    } else {
+      alert('โปรดต่อเน็ต');
+    }
   }
 
   testClickIcon(event) {
@@ -169,27 +199,12 @@ export class TripSales {
     this.navCtrl.push('CustomerInfoPage', { 'appParam': appParam });
   }
 
-  goToChooseProduct(event, marker) {
-    event.stopPropagation();
-    // app parameter
-    let customer = this.mapCustomerAndMarker(marker);
-    let appParam = this.setupAppParam(this.salesman, customer);
-    this.navCtrl.push('ChooseProductPage', { 'appParam': appParam });
-  }
-
-  goToPromotionListPage(event, marker) {
-    event.stopPropagation();
-    let customer = this.mapCustomerAndMarker(marker);
-    let appParam = this.setupAppParam(this.salesman, customer);
-    console.log('customer', customer);
-    this.navCtrl.push('PromotionsListPage', { 'appParam': appParam });
-  }
-
   logout() {
     let key: string = 'AuthToken';
     this.storage.remove(key).then(() => {
       this.app.getRootNav().setRoot('Login');
-    })
+      this.locationTracker.stopTracking();
+    });
   }
 
 }

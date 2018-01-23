@@ -1,0 +1,33 @@
+{
+  "head": {
+    "salesmancode": "C461",
+    "divisioncode": "B",
+    "sectioncode": "204",
+    "warehousecode": "C461",
+    "customercode": "40407157",
+    "total": 5340,
+    "discount": 372,
+    "net": 4968
+  },
+  "detail": [
+    {
+      "productcode": "411140",
+      "qty": 1080, // comment หน่วยเป็นชิ้น
+      "discounttype": "discountamount",
+      "discountamount": 372,
+      "total": 5340,
+      "net": 4968,
+      "premiumto": ""
+    },
+    {
+      "productcode": "499236",
+      "qty": 18, // comment หน่วยเป็นชิ้น
+      "discounttype": "discountamount",
+      "discountamount": 0,
+      "total": 0,
+      "net": 0,
+      "premiumto": "411140"
+    }
+  ],
+  "type": "van"
+}

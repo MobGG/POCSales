@@ -1,0 +1,58 @@
+<ion-header>
+
+  <ion-navbar color="spc">
+    <ion-title>ข้อมูลลูกค้า</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding class="bg-color">
+
+  <ion-item padding-horizontal>
+    <div style="font-weight: bold;">รหัสลูกค้า</div>
+    <div padding-top style="background-color: none;">{{customer.customerCode}}</div>
+  </ion-item>
+
+  <ion-item padding-horizontal>
+    <div>ชื่อลูกค้า</div>
+    <div padding-top>{{customer.customerNameThai}}</div>
+  </ion-item>
+
+  <ion-item padding-horizontal>
+    <div>ที่อยู่</div>
+    <div padding-top>{{customer.address}} {{customer.districtThai}} {{customer.amphurThai}} {{customer.provinceThai}}</div>
+  </ion-item>
+
+  <ion-row>
+    <ion-item ion-col col-6 padding-bottom padding-horizontal>
+      <div>ละติูจูด</div>
+      <div padding-top>{{customer.gpsn}}</div>
+    </ion-item>
+
+    <ion-item ion-col col-6 padding-bottom padding-horizontal>
+      <div>ลองติจูด</div>
+      <div padding-top>{{customer.gpse}}</div>
+    </ion-item>
+  </ion-row>
+
+  <button ion-button (click)="goToChooseProduct()">
+    เปิดงานขาย
+  </button>
+  <button ion-button (click)="goToPromotionListPage()">
+    โปรโมชั่นทั้งหมด
+  </button>
+  <button ion-button (click)="tripOn()">
+    เยี่ยม
+  </button>
+  <button ion-button >
+    นำทาง
+  </button>
+
+  <!-- <button ion-button>
+    แสดงตำแหน่งปัจจุบัน
+  </button>
+  <button ion-button>
+    แสดงตำแหน่งร้านค้า
+  </button> -->
+
+</ion-content>

@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-navbar color="spc">
+    <ion-title>เบิกสินค้า</ion-title>
+  </ion-navbar>
+  <ion-toolbar no-border-top color="spc">
+    <ion-row align-items-center>
+      <ion-item ion-col col-5>
+        <ion-label>เลือก สร.</ion-label>
+        <ion-select placeholder="ไม่ได้เลือก" [(ngModel)]="warehouseCode">
+          <ion-option *ngFor="let stock of stockList" [value]="stock.storeid">
+            {{stock.storeid}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-searchbar ion-col col-5 placeholder="ค้นหาสินค้า" [(ngModel)]="searchText"></ion-searchbar>
+      <button ion-button ion-col col-2 (click)="search()">search</button>
+    </ion-row>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="stock">
+      <ion-segment-button value="sr">
+        สต๊อก สร.
+      </ion-segment-button>
+      <ion-segment-button value="get">
+        เบิกสินค้า
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding class="bg-color">
+  <div [ngSwitch]="stock">
+    <ion-list *ngSwitchCase="'sr'">
+      <button ion-item *ngFor="let sr of stockSR" (click)="addToVan(sr)">
+        <ion-row>
+          <div ion-col col-12 col-sm-7 col-md-8 text-wrap> {{ sr.productCode }} {{ sr.palmProductNamet }} </div>
+          <div ion-col col-12 col-sm-5 col-md-4 text-wrap text-right> เหลือ {{ sr.qtyB }} หีบ / {{ sr.qtyP }} ชิ้น </div>
+        </ion-row>
+      </button>
+    </ion-list>
+    <ion-list *ngSwitchCase="'get'">
+      <button ion-item *ngFor="let van of stockVan; let i = index">
+        <ion-row>
+          <div ion-col col-12 col-sm-7 col-md-8 text-wrap> {{van.productCode}} {{van.palmProductNamet}} </div>
+          <div ion-col col-12 col-sm-5 col-md-4 text-wrap text-right> เบิก {{ van.qtyB }} หีบ / {{ van.qtyP }} ชิ้น </div>
+        </ion-row>
+        <button ion-fab item-right color="danger" (click)="removeFromVan($event, i)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </button>
+    </ion-list>
+  </div>
+</ion-content>
+<ion-footer no-border no-padding>
+  <button ion-button full block large [disabled]="checkGetProudct()" (click)="presentConfirm()">ยืนยันการเบิกสินค้า</button>
+</ion-footer>

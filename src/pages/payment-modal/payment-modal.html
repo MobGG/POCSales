@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-navbar color="spc">
+    <ion-title text-center>payment-Modal</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="bg-color">
+
+  <ion-card>
+    <ion-card-header>
+      <ion-row>
+        <h1 ion-col col-6 no-padding>จำนวนเงินทั้งหมด:</h1>
+        <h1 ion-col col-6 no-padding text-right>xxx,xxx.xx</h1>
+      </ion-row>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <h1>จ่ายสด</h1>
+    </ion-card-header>
+    <ion-card-content padding-bottom>
+      <ion-item padding-horizontal>
+        <ion-label fixed color="dark"> จำนวนเงิน: </ion-label>
+        <ion-input text-right type="number" min="0"> </ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <h1>จ่ายเช็ค</h1>
+    </ion-card-header>
+    <ion-card-content padding-bottom>
+      <ion-item padding-horizontal>
+        <ion-label fixed color="dark"> จำนวนเงิน: </ion-label>
+        <ion-input text-right type="number" min="0"> </ion-input>
+      </ion-item>
+      <ion-item padding-horizontal>
+        <ion-label fixed color="dark"> เลขที่เช็ค: </ion-label>
+        <ion-input text-right type="number" min="0"> </ion-input>
+      </ion-item>
+      <ion-item padding-horizontal>
+        <ion-label fixed color="dark"> วันที่เช็ค: </ion-label>
+        <ion-input text-right type="number" min="0"> </ion-input>
+      </ion-item>
+      <ion-item padding-horizontal>
+        <ion-label fixed color="dark"> ธนาคาร: </ion-label>
+        <ion-input text-right type="number" min="0"> </ion-input>
+      </ion-item>
+      <ion-item padding-horizontal>
+        <ion-label fixed color="dark"> สาขา: </ion-label>
+        <ion-input text-right type="number" min="0"> </ion-input>
+      </ion-item>
+      <ion-item padding-horizontal>
+        <ion-label fixed color="dark"> เลขที่บัญชี: </ion-label>
+        <ion-input text-right type="number" min="0"> </ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
+
+<ion-footer ion-row no-border no-padding>
+  <button ion-button ion-col col-6 full block color="danger" (click)="paymentCancel()">ยกเลิก</button>
+  <button ion-button ion-col col-6 full block color="secondary" (click)="paymentConfirm()">บันทึก</button>
+</ion-footer>

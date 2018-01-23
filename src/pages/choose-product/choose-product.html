@@ -1,0 +1,60 @@
+<ion-header>
+
+  <ion-navbar color="spc">
+    <ion-title text-center>เลือกสินค้า</ion-title>
+  </ion-navbar>
+
+  <ion-toolbar color="spc">
+    <ion-searchbar debounce="1000" placeholder="ค้นหาสินค้า" (ionInput)="search($event)">
+      <!--(ionInput)="searchProduct($event)" (ionClear)="clearSearch($event)" (ionCancel)="clearSearch($event)">-->
+    </ion-searchbar>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content padding class="bg-color">
+
+  <strong *ngIf="(products)?.length > 0; else elseBlock">พบสินค้า {{searchResult}} รายการ </strong>
+  <ng-template #elseBlock>
+    <strong>...</strong>
+  </ng-template>
+
+  <!-- <div *ngIf="condition; else elseBlock">...</div> -->
+  <!-- <ng-template #elseBlock>...</ng-template> -->
+
+  <!--<ion-item-divider> สินค้า </ion-item-divider>-->
+  <div padding-left padding-top style="font-size: 18px;">สินค้า</div>
+  <ion-scroll class="half-Y" scrollX="true" scrollY="true">
+    <ion-list>
+      <button ion-item *ngFor="let product of products" (click)="orderProduct(product)">
+        <ion-row>
+          <div ion-col col-12 col-sm-7 col-md-7 text-wrap> {{product.productCode}} {{product.palmProductNamet}} </div>
+          <div ion-col col-12 col-sm-5 col-md-5 text-wrap> สต๊อกบนรถ {{ product.qtyB }} หีบ / {{ product.qtyP }} ชิ้น </div>
+        </ion-row>
+      </button>
+    </ion-list>
+  </ion-scroll>
+
+  <!--<ion-item-divider> ตะกร้า </ion-item-divider>-->
+  <div padding style="font-size: 18px;">ตะกร้า</div>
+  <ion-scroll class="half-Y" scrollX="true" scrollY="true">
+    <ion-list>
+      <button ion-item *ngFor="let order of cart; let i = index" (click)="orderProduct(order)">
+        <ion-row>
+          <div ion-col col-12 col-sm-8 col-md-8 text-wrap> {{order.productCode}} {{order.palmProductNamet}} </div>
+          <div ion-col col-12 col-sm-4 col-md-4 text-wrap> สั่ง {{order.orderB}} หีบ / {{order.orderP}} ชิ้น</div>
+        </ion-row>
+        <button ion-fab item-right color="danger" (click)="removeFormCart($event, i)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </button>
+    </ion-list>
+  </ion-scroll>
+
+</ion-content>
+
+<ion-footer no-border no-padding>
+  <button ion-button block [disabled]="cart?.length == 0" (click)="pushSellPage()">
+    ต่อไป
+  </button>
+</ion-footer>

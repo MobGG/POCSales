@@ -16,8 +16,8 @@ import { PromotionProvider } from '../../providers/promotion/promotion';
 })
 export class PromotionsListPage {
   appParam: any;
-  allPromotionList: any;
-  showList: any;
+  allPromotionList: any[] = [];
+  showList: any[] = [];
   // must able to search by [productcode, productnamethai, sectioncode, brandname, assortedproductgroup]
   constructor(
     private navCtrl: NavController,
@@ -27,22 +27,29 @@ export class PromotionsListPage {
     private promotionProvider: PromotionProvider
   ) {
     this.appParam = navParams.get('appParam');
+    this.getPromotionList();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PromotionsListPage');
+
+  }
+
+  getPromotionList() {
     let content = 'กำลังเตรียมโปรโมชั่น...';
     let loader = this.loadingProvider.showLoading(content);
     this.platform.ready().then(() => {
-      this.promotionProvider.getPromotionMasterALL(this.appParam)
+      let productCode = null;
+      this.promotionProvider.getPromotionMasterALL(this.appParam, productCode)
         .subscribe((res) => {
-          console.log('promotionList', res);
-          this.allPromotionList = res;
-          this.showList = this.allPromotionList;
+          if (res) {
+            console.log('promotionList', res);
+            this.allPromotionList = res;
+            this.showList = this.allPromotionList;
+          }
+          loader.dismiss();
         }, (err) => {
           console.warn('error', err);
-        }, () => {
-          console.log('finish');
           loader.dismiss();
         });
     });
