@@ -1,0 +1,57 @@
+<ion-header>
+
+  <ion-navbar color="spc">
+    <ion-title text-center>ยืนยันการสั่งซื้อ/ขาย</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding class="bg-color">
+
+  <h1 text-center>รายการสินค้า</h1>
+  <ion-list padding>
+    <ion-item *ngFor="let order of appParam.cart">
+      <ion-row no-padding>
+        <div ion-col col-12 col-sm-6 text-wrap>
+          {{ order.palmProductNamet }}
+        </div>
+        <div ion-col col-12 col-sm-3 text-right text-wrap>
+          {{ order.orderB }}/{{ order.orderP }}
+        </div>
+        <div ion-col col-12 col-sm-3 text-right text-wrap>
+          {{ order.totalPrice | number:'1.0-2' }}
+        </div>
+      </ion-row>
+      <ion-row ion-row no-padding *ngIf="order.premiumProduct.premiumProductCode">
+        <div ion-col col-12 col-sm-6 text-left text-wrap>
+          แถม {{ order.premiumProduct.premiumProductName }}
+        </div>
+        <div ion-col col-12 col-sm-3 text-right text-wrap>
+          {{ order.premiumProduct.premiumProductQty }}
+        </div>
+        <div ion-col col-12 col-sm-3 text-right text-wrap>
+          {{ order.premiumProduct.premiumProductUnit }}
+        </div>
+      </ion-row>
+    </ion-item>
+  </ion-list>
+
+  <!--<h1 text-center>รายการของแถม</h1>
+  <ion-list padding>
+    <ion-item *ngFor="let premium of appParam.cart">
+      <ion-row>
+        <div>{{ premium.palmProductNamet }} แถม {{ premium.premiumProduct.premiumProductName }} จำนวน {{ premium.premiumProduct.premiumProductQty
+          }} {{ premium.premiumProduct.premiumProductUnit }} </div>
+      </ion-row>
+    </ion-item>
+  </ion-list>-->
+
+  <pre> {{ sampleData | json }} </pre>
+
+</ion-content>
+
+<ion-footer no-border>
+  <button ion-button block color="secondary" (click)="confirmOrder()">
+    ยืนยันการสั่งซื้อ
+  </button>
+</ion-footer>

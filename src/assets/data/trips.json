@@ -1,0 +1,25 @@
+{
+    "trips": [
+        {
+            "title": "Bangkok Tower",
+            "latitude": 13.7452459,
+            "longitude": 100.5795549
+        },
+        {
+            "title": "Thai Ticket Majr",
+            "latitude": 13.7463766,
+            "longitude": 100.5800913
+        },
+        {
+            "title": "Lawson Station 108",
+            "latitude": 13.7449593,
+            "longitude": 100.5790775
+        },
+        {
+            "title": "Sahapat",
+            "latitude": 13.7452876,
+            "longitude": 100.5780797
+        }
+        
+    ]
+}

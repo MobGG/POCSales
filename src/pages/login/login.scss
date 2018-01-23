@@ -1,0 +1,33 @@
+page-login {
+    .i-align-center {
+		width: auto;
+		margin: auto;
+		display: block;
+	}
+	.i-btn {
+		top: 40px;
+	}
+	.i-blue-theme {
+		background: -webkit-linear-gradient(90deg, #00c6ff 10%, #0072ff 90%);
+	    background: -moz-linear-gradient(90deg, #00c6ff 10%, #0072ff 90%);
+	    background: -ms-linear-gradient(90deg, #00c6ff 10%, #0072ff 90%);
+	    background: -o-linear-gradient(90deg, #00c6ff 10%, #0072ff 90%);
+	    background: linear-gradient(90deg, #00c6ff 10%, #0072ff 90%);
+	    color: #ffffff;     
+	}	
+	.i-login-header {
+		text-align: center;
+	}	
+	.i-app-logo { 
+		max-width: 80px; 
+		margin: auto; 
+		padding-top: 15%;
+		padding-bottom: 30px;
+		background-repeat: no-repeat;
+		background-position: center;
+	}	
+	.i-login-input {
+		padding-left: 15%;
+		padding-right: 15%;
+	}
+}

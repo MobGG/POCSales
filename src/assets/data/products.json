@@ -1,0 +1,195 @@
+{
+    "success": true,
+    "products": [
+        {
+            "code": "759001",
+            "name": "759001",
+            "qtyPiece": 0,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": false
+        },
+        {
+            "code": "442202",
+            "name": "442202",
+            "qtyPiece": 0,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": false
+        },
+        {
+            "code": "420513",
+            "name": "420513",
+            "qtyPiece": 0,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": false
+        },
+        {
+            "code": "420299",
+            "name": "420299",
+            "qtyPiece": 0,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": false
+        },
+        {
+            "code": "420349",
+            "name": "420349",
+            "qtyPiece": 0,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": false
+        },
+        {
+            "code": "441287",
+            "name": "441287",
+            "qtyPiece": 20,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": true
+        },
+        {
+            "code": "402107",
+            "name": "402107",
+            "qtyPiece": 20,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": true
+        },
+        {
+            "code": "402123",
+            "name": "402123",
+            "qtyPiece": 20,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": true
+        },
+        {
+            "code": "319863",
+            "name": "319863",
+            "qtyPiece": 0,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": false
+        },
+        {
+            "code": "321232",
+            "name": "321232",
+            "qtyPiece": 0,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": false
+        },
+        {
+            "code": "460006",
+            "name": "460006",
+            "qtyPiece": 0,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": false
+        },
+        {
+            "code": "460014",
+            "name": "460014",
+            "qtyPiece": 0,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": false
+        },
+        {
+            "code": "460022",
+            "name": "460022",
+            "qtyPiece": 0,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": false
+        },
+        {
+            "code": "441220",
+            "name": "441220",
+            "qtyPiece": 0,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": false
+        },
+        {
+            "code": "441238",
+            "name": "441238",
+            "qtyPiece": 0,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": false
+        },
+        {
+            "code": "266015",
+            "name": "266015",
+            "qtyPiece": 20,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": true
+        },
+        {
+            "code": "704163",
+            "name": "704163",
+            "qtyPiece": 20,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": true
+        },
+        {
+            "code": "704437",
+            "name": "704437",
+            "qtyPiece": 20,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": true
+        },
+        {
+            "code": "704577",
+            "name": "704577",
+            "qtyPiece": 20,
+            "pricePerPiece": 5,
+            "qtyPackage": 5,
+            "pricePerPackage": 60,
+            "qtyPiecePerPackage": 12,
+            "canBreak": true
+        }
+    ]
+}

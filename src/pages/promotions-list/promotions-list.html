@@ -1,0 +1,25 @@
+<ion-header>
+
+  <ion-navbar color="spc">
+    <ion-title>promotionsList</ion-title>
+  </ion-navbar>
+  <ion-toolbar color="spc">
+    <ion-searchbar placeholder="ค้นหาโปรโมชั่น" debounce="1000" (input)="searchPromotion($event)" (ionClear)="clearSearch($event)"></ion-searchbar>
+    <!-- <ion-searchbar placeholder="ค้นหาโปรโมชั่น"></ion-searchbar> -->
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="bg-color">
+  <ion-list padding>
+    <ion-item *ngFor="let promotion of showList">
+      <ion-row>
+        <h1 ion-col col-9 text-wrap> {{ promotion.productcode }} {{ promotion.productnamethai }} </h1>
+        <div ion-col col-3 text-wrap> {{ promotion.unitprice}} บาท</div>
+      </ion-row>
+      <ion-row>
+        <div ion-col col-12 text-wrap> {{promotion.promotions}} </div>
+      </ion-row>
+    </ion-item>
+  </ion-list>
+</ion-content>

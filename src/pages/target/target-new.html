@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-navbar color="spc">
+    <ion-title text-center>เป้าหมาย new</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon no-padding name="ios-funnel"></ion-icon>
+        เรียงตาม
+        <!--add-->
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+  <ion-toolbar color="danger">
+    <ion-searchbar placeholder="ค้นหาสินค้า" (input)="searchTarget($event)" (ionClear)="clearSearch($event)">
+    </ion-searchbar>
+  </ion-toolbar>
+
+
+
+</ion-header>
+
+<ion-content padding class="bg-color">
+
+  <ion-list>
+
+    <ion-item *ngFor="let target of salesTarget">
+      <ion-row>
+        <ion-col col-12>
+          <h1 style="white-space: normal;"> {{target.productcode}} {{target.palmproductnamet}} </h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12 col-sm-6 col-md-6 col-lg-6>
+          <div text-wrap color="dark" style="white-space: normal;"> เป้าหมาย {{target.quantitycase}} หีบ</div>
+        </ion-col>
+        <ion-col col-12 col-sm-6 col-md-6 col-lg-6>
+          <div text-wrap color="dark" style="white-space: normal;"> จำนวนเงิน {{target.targetamount}} บาท</div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12 col-sm-6 col-md-6 col-lg-6>
+          <div text-wrap color="dark" style="white-space: normal;"> ขายไปแล้ว {{target.sumprdtQtyB}} หีบ {{target.sumprdtQtyP}} ชิ้น</div>
+        </ion-col>
+        <ion-col col-12 col-sm-6 col-md-6 col-lg-6>
+          <div text-wrap color="dark" style="white-space: normal;"> จำนวนเงิน {{target.sumprdtAmt}} บาท</div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12 col-sm-6 col-md-6 col-lg-6>
+          <div text-wrap color="dark" style="white-space: normal;"> ต้องขายอีก {{target.reachTgaPrdtQtyB}} หีบ {{target.reachTgaPrdtQtyP}} ชิ้น</div>
+        </ion-col>
+        <ion-col col-12 col-sm-6 col-md-6 col-lg-6>
+          <div text-wrap color="dark" style="white-space: normal;"> คิดเป็น {{target.sumQtyPercent}} %</div>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>

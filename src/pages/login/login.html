@@ -1,0 +1,29 @@
+<ion-content padding>
+
+  <ion-row style="padding:40px 0 10px;">
+    <ion-col style="flex:0 0 100%; max-width:100%; text-align:center;">
+      <img src="./assets/image/logo.png">
+      <h2>SPC Smart Van Sales</h2>
+    </ion-col>
+  </ion-row>
+
+  <ion-row style="padding:0 30px;">
+    <ion-col>
+      <ion-item>
+        <ion-label floating>รหัสผู้ใช้งาน</ion-label>
+        <ion-input type="text" [(ngModel)]="userCred.username" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>รหัสผ่าน</ion-label>
+        <ion-input type="password" [(ngModel)]="userCred.password" required></ion-input>
+      </ion-item>
+      <p style="padding-top:40px;">
+        <button ion-button block icon-left class="i-button-login" color="primary-color" (click)="authenticate(userCred)">
+			    <ion-icon name="log-in"></ion-icon>
+          เข้าสู่ระบบ
+		    </button>
+      </p>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

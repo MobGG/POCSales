@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-navbar color="spc">
+    <ion-title>todaySales</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list *ngFor="let product of todaySoldProduct">
+    <ion-item ion-row>
+      <ion-label ion-col col-6>{{ product.productcode }}</ion-label>
+      <ion-label ion-col col-6>{{ product.qty }} / {{ product.qtyp }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

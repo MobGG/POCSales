@@ -1,0 +1,75 @@
+<ion-header>
+
+  <ion-navbar color="spc">
+    <ion-title text-center>เลือกจำนวน</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="order()">
+        <ion-icon name="close" style="font-size:24px;"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content class="bg-color">
+  <ion-card class="adv-map">
+    <ion-card-content>
+      <ion-card-title>
+        <!--<h1 style="font-family: kanit;">{{product.productCode}} {{product.palmProductNamet}}</h1>-->
+        <strong style="font-family: kanit;">
+          {{product.productCode}} {{product.palmProductNamet}}
+        </strong>
+      </ion-card-title>
+
+      <ion-row>
+
+        <ion-item ion-col col-6 no-padding>
+          สต๊อกบนรถ {{ product.qtyB }} หีบ / {{product.qtyP}} ชิ้น
+        </ion-item>
+
+        <ion-item ion-col col-6 no-padding>
+          บรรจุ {{ product.packingSize }} ชิ้น
+        </ion-item>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-item ion-col col-6 no-padding>
+          ราคาต่อหีบ {{ product.unitPrice | number: '1.0-2' }} บาท
+        </ion-item>
+        <!--<ion-item ion-col col-6 no-padding>
+          ราคาต่อชิ้น {{ product.piecePrice | number: '1.0-2' }} บาท
+        </ion-item>-->
+      </ion-row>
+
+      <ion-item no-padding>
+        <ion-label fixed color="dark">จำนวนหีบ</ion-label>
+        <!--<ion-input text-right type="number" min="0" placeholder="0" required-->
+        <ion-input text-right type="number" min="0"  required
+          [(ngModel)]="product.orderB" 
+          (input)="validatePackage(product)"
+          (ionBlur)="validateOrder(product)">
+        </ion-input>
+      </ion-item>
+      <div text-wrap text-center *ngIf="product.outOfStockB" class="error-color">สินค้ามีไม่พอ</div>
+
+      <ion-item no-padding>
+        <ion-label fixed color="dark">จำนวนชิ้น</ion-label>
+        <!--<ion-input text-right type="number" min="0" placeholder="0" required -->
+        <ion-input text-right type="number" min="0"  required 
+          [(ngModel)]="product.orderP" 
+          (input)="validatePiece(product)"
+          (ionBlur)="validateOrder(product)">
+        </ion-input>
+      </ion-item>
+      <div text-wrap text-center *ngIf="product.outOfStockP" class="error-color">สินค้ามีไม่พอ</div>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>
+
+<ion-footer no-border no-padding>
+  <button ion-button full block [disabled]="disableButton" (click)="order(product)">ตกลง</button>
+</ion-footer>
